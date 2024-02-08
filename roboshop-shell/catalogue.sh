@@ -32,14 +32,7 @@ VALIDATE $? "setting up  npm source"
 yum install nodejs -y &>>$LOGFILE
 VALIDATE $? "installed nodejs"
 
-roboshop=$(id roboshop )
-if [ $roboshop -ne 0 ]
-then 
-    echo -e "$R roboshop user not exist, $G creating roboshop user "
-    useradd roboshop &>>$LOGFILE
-else
-    echo -e "$G roboshop user already existed"
-fi
+useradd roboshop &>>$LOGFILE
 
 mkdir /app &>>$LOGFILE
 
@@ -58,19 +51,20 @@ VALIDATE $? "install npm"
 
 cp /home/centos/roboshop-shell/catalogue.service /etc/systemd/system/catalogue.service &>>$LOGFILE
 
-systemctl daemon-reload 
+systemctl daemon-reload  &>>$LOGFILE
 VALIDATE $? "daemon-reload"
 
-systemctl enable catalogue 
+systemctl enable catalogue  &>>$LOGFILE
 VALIDATE $? "enable catalogue"
 
-systemctl start catalogue
+systemctl start catalogue &>>$LOGFILE
 VALIDATE $? "start catalogue"
 
-cp /home/centos/roboshop-shell/mongo.repo   /etc/yum.repos.d/mongo.repo
+cp /home/centos/roboshop-shell/mongo.repo   /etc/yum.repos.d/mongo.repo &>>$LOGFILE
 VALIDATE $? "copied mongo.repo"
 
-yum install mongodb-org-shell -y
+yum install mongodb-org-shell -y &>>$LOGFILE
 VALIDATE $? "install mongodb"
 
-mongo --host mongodb.devopsskht.xyz </app/schema/catalogue.js
+mongo --host mongodb.devopsskht.xyz </app/schema/catalogue.js &>>$LOGFILE
+VALIDATE $? "loading catalogue data into mongodb"
