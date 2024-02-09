@@ -1,0 +1,162 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: ping servers
+    ping:
+...
+
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: create a file
+      path: /tmp/
+      owner: ec2-user
+      group: ec2-user
+      state: touch
+
+...
+
+ansible-playbook pingservers.yaml 
+ansible-playbook createfile.yaml
+
+ansible all - b -m shell -a "df -hT"
+ansible all -b -m yum -a "name=vim"
+
+-b = become/root
+-m = Module
+-a = attribute
+
+---
+- hosts: all
+  become: true
+  vars_files: variable.yaml
+  tasks:
+    - name: install apache httpd servers
+      yum:
+        name: httpd
+        state:  latest
+
+    - name: copy file
+      copy:
+        src:  /index.html
+        dest: /var/www/html/index.html
+...
+
+---
+- hosts: all
+  become: true
+  vars_files:
+    - dev_vars.yaml
+  tasks:
+  - name: install apache http servers
+    yum:
+      name: httpd
+      state: latest
+...
+
+---
+- hosts: all
+  become: true
+  vars_files:
+    - "{{env}}_vars.yaml"
+  tasks:
+  - name: install apache httpd servers
+    yum:
+      name: httpd
+      state: latest
+...
+
+ansible-playbook httpserverswithhandlers.yaml --extras-vars env=prod
+
+---
+- hosts: all
+  become: true
+  vars_files:
+    - dev_vars.yaml
+  tasks:
+  - name: install list of packages
+    yum:
+      name: ['git', 'wget','vim']
+      state: latest
+...
+
+create users
+
+---
+- hosts: all
+  become: true
+  tasks: 
+  - name: create user
+    user:
+      name="{{item}}"
+      create_home=yes
+    with_items:
+      ansible 
+      testuser
+...
+# handlers are special task which will run at the end of the play if notified by another task
+
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: copy index.html
+    copy:
+      src:
+      dest:
+    notify:
+    - restart the apache http servers
+  handlers:
+  - name: restart the servers
+    service:
+      name: httpd
+      state: restarted
+      enabled: true
+...
+#tags
+#you donot have to run all the playbook you can use tags to run that tasks only 
+
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: install apache httpd servers
+    tags:
+    - install
+    yum:
+      name: http 
+      state: present 
+  - name: start httpd servers
+    tags:
+    - start
+    service:
+      name: httpd 
+      enabled: yes  
+      state: latest 
+
+      
+ ansible-playbook installapacheserver.yaml   --tags 'install,start'    
+
+
+# ansible roles can be used for the group of multiple tasks together in a playbook
+
+tasks
+handlers
+vars
+template
+files
+
+
+---
+- hosts: all
+  become: true
+  roles: 
+   - apachehttpserver
+...
+
+ansible-galaxy apachehttpserver
+
+ansible vault is a feature with this you can encrypt the confidential information
+
