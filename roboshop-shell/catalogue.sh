@@ -47,8 +47,14 @@ VALIDATE $? "change directory"
 unzip /tmp/catalogue.zip &>>$LOGFILE
 VALIDATE $? "unzip catalogue"
 
+npm cache clear --force
+
 npm install &>>$LOGFILE
 VALIDATE $? "install npm" 
+
+npm fund
+
+npm audit fix
 
 cp /home/centos/roboshop-shell/catalogue.service /etc/systemd/system/catalogue.service &>>$LOGFILE
 
