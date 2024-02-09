@@ -31,8 +31,6 @@ curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>$LOGFILE
 VALIDATE $? "setting up  npm source"
 
 
-echo pwd
-
 yum install nodejs -y &>>$LOGFILE
 VALIDATE $? "installed nodejs"
 
@@ -59,8 +57,8 @@ npm fund
 
 npm audit fix
 echo pwd 
-cp /home/centos/roboshop-shell/catalogue.service /etc/systemd/system/catalogue.service &>>$LOGFILE
-echo pwd
+cp /home/centos/roboshop-shell/roboshop-shell/catalogue.service /etc/systemd/system/catalogue.service &>>$LOGFILE
+
 
 systemctl daemon-reload  &>>$LOGFILE
 VALIDATE $? "daemon-reload"
