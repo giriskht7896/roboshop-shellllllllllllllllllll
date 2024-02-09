@@ -27,53 +27,53 @@ VALIDATE(){
 }
 
 
-curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>$LOGFILE
+curl -sL https://rpm.nodesource.com/setup_lts.x | bash 
 VALIDATE $? "setting up  npm source"
 
 
-yum install nodejs -y &>>$LOGFILE
+yum install nodejs -y 
 VALIDATE $? "installed nodejs"
 
-useradd roboshop &>>$LOGFILE
+useradd roboshop 
 
-mkdir /app &>>$LOGFILE
+mkdir /app 
 
 
-curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>>$LOGFILE
+curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip 
 VALIDATE $? "downloaded catalogue"
 
-cd /app &>>$LOGFILE
-VALIDATE $? "change directory" 
+cd /app 
+# VALIDATE $? "change directory" 
 
-unzip /tmp/catalogue.zip &>>$LOGFILE
+unzip /tmp/catalogue.zip 
 VALIDATE $? "unzip catalogue"
 
 npm cache clear --force
 
-npm install &>>$LOGFILE
+npm install
 VALIDATE $? "install npm" 
 
 npm fund
 
 npm audit fix
 echo pwd 
-cp /home/centos/roboshop-shell/roboshop-shell/catalogue.service /etc/systemd/system/catalogue.service &>>$LOGFILE
+cp /home/centos/roboshop-shell/roboshop-shell/catalogue.service /etc/systemd/system/catalogue.service 
 
 
-systemctl daemon-reload  &>>$LOGFILE
+systemctl daemon-reload  
 VALIDATE $? "daemon-reload"
 
-systemctl enable catalogue  &>>$LOGFILE
+systemctl enable catalogue  
 VALIDATE $? "enable catalogue"
 
-systemctl start catalogue &>>$LOGFILE
+systemctl start catalogue 
 VALIDATE $? "start catalogue"
 
-cp /home/centos/roboshop-shell/mongo.repo   /etc/yum.repos.d/mongo.repo &>>$LOGFILE
+cp /home/centos/roboshop-shell/mongo.repo   /etc/yum.repos.d/mongo.repo
 VALIDATE $? "copied mongo.repo"
 
-yum install mongodb-org-shell -y &>>$LOGFILE
+yum install mongodb-org-shell -y 
 VALIDATE $? "install mongodb"
 
-mongo --host mongodb.devopsskht.xyz </app/schema/catalogue.js &>>$LOGFILE
+mongo --host mongodb.devopsskht.xyz </app/schema/catalogue.js 
 VALIDATE $? "loading catalogue data into mongodb"
