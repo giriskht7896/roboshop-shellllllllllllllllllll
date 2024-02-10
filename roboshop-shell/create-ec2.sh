@@ -21,18 +21,18 @@ do
 
     echo "created $i instance: $IP_ADDRESS"
 
-     aws route53 change-resource-record-sets --hosted-zone-id Z01278211VH22AL56K3B8 --change-batch '
-    {"Changes": [ { 
-        "Action": "UPSERT",
-         "ResourceRecordSet": {
-             "Name": "$i.$DOMAIN_NAME", 
-             "Type": "A", 
-             "TTL": 3600, 
-             "ResourceRecords": [{ "Value": "$IP_ADDRESS" }] 
-             } } 
-             ]
-    }
-    '
+#    aws route53 change-resource-record-sets --hosted-zone-id Z01278211VH22AL56K3B8 --change-batch '
+#     {"Changes": [ { 
+#         "Action": "UPSERT",
+#        "ResourceRecordSet": {
+#            "Name": "$i.$DOMAIN_NAME", 
+#            "Type": "A", 
+#            "TTL": 3600, 
+#            "ResourceRecords": [{ "Value": "$IP_ADDRESS" }] 
+#            } } 
+#            ]
+#   }
+#     '
 
 done
 
