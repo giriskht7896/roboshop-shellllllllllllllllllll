@@ -6,6 +6,7 @@ IMAGE_ID=ami-0f3c7d07486cad139
 SECURITY_GROUP_ID=sg-0d2c442d103270735 
 INSTANCE_TYPE=""
 DOMAIN_NAME=devopsskht.xyz
+HOSTED_ZONE_ID=Z01278211VH22AL56K3B8
 
 for i in "${NAMES[@]}"
 do
@@ -21,7 +22,7 @@ do
 
     echo "created $i instance: $IP_ADDRESS"
 
-#    aws route53 change-resource-record-sets --hosted-zone-id Z01278211VH22AL56K3B8 --change-batch '
+#    aws route53 change-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID --change-batch '
 #     {"Changes": [ { 
 #         "Action": "UPSERT",
 #        "ResourceRecordSet": {
