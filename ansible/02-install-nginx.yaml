@@ -1,0 +1,13 @@
+---
+- name:
+  hosts: user
+  become: true
+  tasks: 
+  - name: install nginx
+    ansible.builtin.yum:
+     name: nginx
+     state: latest
+  - name: Start service nginx, if not started
+    ansible.builtin.service:
+      name: nginx
+      state: started
