@@ -2,7 +2,7 @@
 
 ---
 - name: ping the server
-  hosts: all
+  hosts: user
   become: true
   tasks:
   - name: ping the node
