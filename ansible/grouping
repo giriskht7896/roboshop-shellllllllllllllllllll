@@ -1,0 +1,25 @@
+[mongodb]
+roboshop-us-dev-db-mongodb-01.devopsskht.xyz
+
+[cart]
+roboshop-us-prod-app-cart-01.devopsskht.xyz
+
+
+[user]
+
+roboshop-us-prod-app-user-01.devopsskht.xyz
+
+[mysql]
+
+roboshop-us-dev-db-mysql-01.devopsskht.xyz
+
+[db:children]
+mongodb
+mysql
+
+[app:children]
+cart
+user
+
+
+ansible -i inventory user -b -e ansible_user=centos -e ansible_password=DevOps321 -m ansible.builtin.service -a "name=nginx state=started"
